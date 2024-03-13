@@ -35,6 +35,20 @@ public:
 
     void create_action(); // 创建行为
     void create_menu(); // 创建菜单
+    void readsettings(); // 读当前游戏设置
+    void writesettings(); // 写当前游戏设置
+
+public slots:
+    void slot_newgame(); // 开始新游戏槽
+    void slot_newgamebyleve(QAction *); // 点击游戏级别行为开始新游戏槽
+    void slot_acceptCutsomvale(int,int,int); // 接收自定义游戏设置槽
+    void slot_colorchanged(); // 设置颜色的槽
+    void slot_soundchanged(); // 设置声音的槽
+    void slot_herochecked(); // 显示英雄榜的槽
+    void slot_about(); // 显示about扫雷的槽
+    void slot_updatehero(); // 更新英雄榜的槽
+    void slot_displayMineNum(int); // 显示雷数的槽
+    void slot_displayTime(); // 显示时间的槽
 
 };
 #endif // MAINWINDOW_H

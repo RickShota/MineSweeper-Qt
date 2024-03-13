@@ -15,6 +15,7 @@ public:
     int m_sceneCol; // 当前场景列数
     int m_mineNum; // 当前场景雷数
     int m_crrentLeve;// 当前场景难度级别
+
     int m_signedMineNum; // 右键标记的雷数
     int m_rightMineNum; // 右键标记正确的雷数
     bool m_isGameOver; // 游戏是否结束
@@ -38,7 +39,7 @@ public:
     void expendWater(MineItem *t_item); // 扩散函数
 signals:
     void sig_successPassGame(); // 游戏成功过关信号
-    void sig_scenenewGame(); // 重新开始游戏信号
+    void sig_sceneNewGame(); // 重新开始游戏信号
     void sig_scenedisplayMineNum(int); // 显示雷数信号
 };
 

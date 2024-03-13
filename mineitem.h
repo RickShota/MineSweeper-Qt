@@ -4,7 +4,7 @@
 #include "common.h"
 #include "minescene.h"
 
-
+// 游戏方块类
 class MineItem : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT

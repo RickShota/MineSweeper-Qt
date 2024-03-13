@@ -9,6 +9,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QAction>
+#include <QActionGroup>
 #include <QWidget>
 #include <QGraphicsView>
 #include <QLCDNumber>
@@ -22,6 +23,10 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QApplication>
+
 
 // 难度级别
 enum gameLeve {
