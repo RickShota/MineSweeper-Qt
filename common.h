@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QApplication>
+#include <signal.h>
 
 
 // 难度级别

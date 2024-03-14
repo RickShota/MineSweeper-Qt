@@ -39,9 +39,10 @@ public:
     void rightClick(); // 右击
     // 鼠标点击事件
     void mousePressEvent(QGraphicsSceneMouseEvent *e);
-signals: // 不需要实现的信号
+signals:
     void sig_restartGame(); // 重开
     void sig_resetMineNum(int t_signedMineNum); // 重设雷数
+
 
 public slots:
 
