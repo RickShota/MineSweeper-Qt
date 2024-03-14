@@ -57,7 +57,6 @@ void MineItem::leftClick() {
             }
             mineScene->openAllItems();
             mineScene->m_isGameOver = true;
-            // TODO 报错
             emit mineScene->sig_successPassGame(); // 发送成功信号
         }
     }
@@ -67,6 +66,9 @@ void MineItem::rightClick() {
     MineScene *mineScene = (MineScene *)this->scene();
     // 游戏结束||方块已打开
     if(mineScene->m_isGameOver || this->m_isOpened) return;
+    if(mineScene->m_soundOpen) {
+        playSound(":/sounds/time.wav");
+    }
     m_rMouseKeyNum++;
     if(m_rMouseKeyNum == 1) { // 标记旗帜
         m_isRMouse = true;
@@ -91,11 +93,3 @@ void MineItem::rightClick() {
     }
 }
 
-// 实现信号
-// void MineItem::sig_restartGame() {
-//     emit sig_restartGame();
-// }
-
-// void MineItem::sig_resetMineNum(int t_signedMineNum) {
-//     emit sig_resetMineNum(t_signedMineNum);
-// }

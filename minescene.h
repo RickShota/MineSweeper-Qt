@@ -1,13 +1,20 @@
+/**
+ * @file minescene.h
+ * @brief 游戏场景类
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.7.2
+ */
 #ifndef MINESCENE_H
 #define MINESCENE_H
 
 #include "common.h"
 #include "mineitem.h"
 class MineItem;
-// 游戏场景类
+
 class MineScene : public QGraphicsScene
 {
-    // Q_OBJECT
+    Q_OBJECT
 public:
     MineScene(QObject *parent = nullptr);
 
@@ -42,6 +49,9 @@ signals:
     void sig_successPassGame(); // 游戏成功过关信号
     void sig_sceneNewGame(); // 重新开始游戏信号
     void sig_scenedisplayMineNum(int); // 显示雷数信号
+private:
+    // 实现信号
+
 
 };
 

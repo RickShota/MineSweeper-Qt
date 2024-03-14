@@ -1,3 +1,10 @@
+/**
+ * @file common.h
+ * @brief 包含了常用的函数和工具类，用于提供一些通用的功能
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.7.2
+ */
 #ifndef COMMON_H
 #define COMMON_H
 
@@ -27,6 +34,11 @@
 #include <QHBoxLayout>
 #include <QApplication>
 #include <signal.h>
+#include <time.h>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QMainWindow>
+#include <QSettings>
 
 
 // 难度级别
@@ -41,12 +53,12 @@ enum lowSet {
     L_MINENUM = 10, // 雷数
 };
 enum middleSet {
-    M_RC = 9, // 行列
-    M_MINENUM = 10, // 雷数
+    M_RC = 16, // 行列
+    M_MINENUM = 40, // 雷数
 };
 enum heightSet {
-    H_RC = 9, // 行列
-    H_MINENUM = 10, // 雷数
+    H_RC = 25, // 行列
+    H_MINENUM = 80, // 雷数
 };
 enum cusomSet {
     C_RC = 9, // 行列
@@ -60,7 +72,7 @@ enum mapSet {
 
 // 加载声音
 inline void playSound(const QString &path) {
-    QSoundEffect sound;
+    static QSoundEffect sound;
     sound.setSource(QUrl::fromLocalFile(path));
     sound.play();
 }

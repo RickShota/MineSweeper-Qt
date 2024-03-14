@@ -14,6 +14,8 @@ void MineScene::initscene() {
     qDebug() << "initscene(): in\n";
     // 初始化非雷数
     this->m_remainNoMines = m_sceneRow * m_sceneCol - m_mineNum;
+    qDebug() << "initscene(): m_sceneRow=" << m_sceneRow << "\n";
+    qDebug() << "initscene(): m_sceneCol=" << m_sceneCol << "\n";
     // 创建方块并设置雷区
     for(int i = 0; i < m_sceneRow; i++ ) {
         QVector<MineItem *> t_vec;
@@ -114,14 +116,4 @@ void MineScene::expendWater(MineItem *item) {
     }
 }
 
-// 实现信号
-void MineScene::sig_successPassGame()
-{
-    emit sig_successPassGame();
-}
-void MineScene::sig_sceneNewGame() {
-    emit sig_sceneNewGame();
-}
-void MineScene::sig_scenedisplayMineNum(int a) {
-    emit sig_scenedisplayMineNum(a);
-}
+

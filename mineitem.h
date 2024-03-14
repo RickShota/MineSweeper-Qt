@@ -1,10 +1,16 @@
+/**
+ * @file mianitem.h
+ * @brief 游戏方块类
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.7.2
+ */
 #ifndef MINEITEM_H
 #define MINEITEM_H
 
 #include "common.h"
 #include "minescene.h"
 
-// 游戏方块类
 class MineItem : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -17,12 +23,6 @@ public:
     int m_aroundMineNum; // 周围雷数
     int m_rMouseKeyNum; // 右键点击的次数
     bool m_isRMouse;
-
-    int m_signedMineNum; // 右键标记的雷数
-    int m_rightMineNum; // 右键标记正确的雷数
-    bool m_isGameOver; // 游戏是否结束
-    int m_remainNoMines; // 剩余非雷数
-    bool m_soundOpen; // 声音开关
 
     QPoint t_around[8] = {
         QPoint(-1,-1),
@@ -38,7 +38,7 @@ public:
     void leftClick(); // 左击
     void rightClick(); // 右击
     // 鼠标点击事件
-    void mousePressEvent(QGraphicsSceneMouseEvent *e);
+    void mousePressEvent(QGraphicsSceneMouseEvent *e) override;
 signals:
     void sig_restartGame(); // 重开
     void sig_resetMineNum(int t_signedMineNum); // 重设雷数

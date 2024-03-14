@@ -1,8 +1,14 @@
+/**
+ * @file mainwindow.h
+ * @brief 主程序窗口
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.7.2
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "common.h"
-#include <QMainWindow>
 #include "minescene.h"
 
 class MineSweep : public QMainWindow
@@ -21,6 +27,7 @@ public:
     QPushButton *smileBtn; // 笑脸按钮
     int use_time; // 当前用时数
     QTimer *timer; // 定时器
+    // QPoint m_dragPosition; // 鼠标位置
 
     QAction *newGameA;
     QAction *lowL;
@@ -37,6 +44,11 @@ public:
     void create_menu(); // 创建菜单
     void readsettings(); // 读当前游戏设置
     void writesettings(); // 写当前游戏设置
+
+    // void wheelEvent(QWheelEvent *event) override;
+    // void mousePressEvent(QMouseEvent *event) override;
+    // void mouseMoveEvent(QMouseEvent *event) override;
+    // void mouseDoubleClickEvent(QMouseEvent *event) override;
 
 public slots:
     void slot_newgame(); // 开始新游戏槽
