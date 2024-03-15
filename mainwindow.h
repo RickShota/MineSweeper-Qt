@@ -10,6 +10,8 @@
 
 #include "common.h"
 #include "minescene.h"
+#include "herodialog.h"
+#include "customgamedialog.h"
 
 class MineSweep : public QMainWindow
 {

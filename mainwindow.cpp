@@ -11,7 +11,12 @@ MineSweep::MineSweep(QWidget *parent)
     slot_newgame();
 }
 
-MineSweep::~MineSweep() {}
+MineSweep::~MineSweep() {
+    if(timer) {
+        timer->stop();
+        delete timer;
+    }
+}
 
 // 实现行为
 void MineSweep::create_action() {
@@ -121,10 +126,18 @@ void MineSweep::slot_newgame() {
     mineNumLcd->deleteLater();
     timeLcd->deleteLater();
     smileBtn->deleteLater();
-    timer->deleteLater();
+    if(timer) {
+        timer->stop();
+        timer->deleteLater();
+    }
     // 创建主界面
     centralWd = new QWidget(this);
     setCentralWidget(centralWd);
+    // 读取状态
+    this->readsettings();
+    if(mineScene->m_soundOpen) {
+        playSound(":/sounds/start.wav");
+    }
     // LED灯
     QPalette pa;
     pa.setColor(QPalette::WindowText, Qt::red);
@@ -152,11 +165,6 @@ void MineSweep::slot_newgame() {
     QVBoxLayout *vL = new QVBoxLayout(centralWd);
     vL->addLayout(hL);
     vL->addWidget(mainView);
-    // 读取状态
-    this->readsettings();
-    if(mineScene->m_soundOpen) {
-        playSound(":/sounds/start.wav");
-    }
     // 场景开始信号->开始新游戏槽
     connect(mineScene, &MineScene::sig_sceneNewGame, this, &MineSweep::slot_newgame);
     // 场景显示雷数信号->显示雷数的槽
@@ -219,7 +227,15 @@ void MineSweep::slot_newgamebyleve(QAction *act) {
     this->slot_newgame();
 }
 // 接收自定义游戏设置
-void MineSweep::slot_acceptCutsomvale(int,int,int) {
+void MineSweep::slot_acceptCutsomvale(int row, int col ,int mine) {
+    mineScene->m_crrentLeve = CUSOM_LEVE;
+    mineScene->m_sceneRow = row;
+    mineScene->m_sceneCol = col;
+    mineScene->m_mineNum = mine;
+    // 写入到注册表
+    this->writesettings();
+    // 开始新游戏
+    this->slot_newgame();
 }
 // 设置颜色
 void MineSweep::slot_colorchanged() {
@@ -227,30 +243,41 @@ void MineSweep::slot_colorchanged() {
 // 设置声音
 void MineSweep::slot_soundchanged() {
     this->mineScene->m_soundOpen = !mineScene->m_soundOpen;
+    soundA->setChecked(mineScene->m_soundOpen);
     QSettings settings ("MineSweeper","0314");
     settings.beginGroup("sound");
     settings.setValue("soundOpen", mineScene->m_soundOpen);
     settings.endGroup();
+    this->update();
 }
 // 显示英雄榜
 void MineSweep::slot_herochecked() {
+    HeroDialog heroD(this);
+    heroD.exec();
 }
 // 显示about扫雷
 void MineSweep::slot_about() {
-    QMessageBox::aboutQt(this,"关于");
+    QString detail = tr("游戏名称: 扫雷仙人\n"
+                     "游戏版本: 1.0.1\n"
+                     "游戏作者: RickRone\n"
+                     "Qt版本: 6.7.2\n"
+                     "发布日期: 2024.3.14");
+    QMessageBox::about(this,tr("关于扫雷仙人"), detail);
 }
 // 更新英雄榜的槽
 void MineSweep::slot_updatehero() {
 }
 // 显示雷数的槽
 void MineSweep::slot_displayMineNum(int num) {
-    this->mineNumLcd->display(num);
+    mineNumLcd->display(mineScene->m_mineNum - num);
 }
 // 显示时间的槽
 void MineSweep::slot_displayTime() {
     if(!mineScene->m_isGameOver) {
         this->use_time++;
         this->timeLcd->display(use_time);
+        if(mineScene->m_soundOpen && soundA->isChecked())
+            playSound(":/sounds/time.wav");
     } else {
         timer->stop();
     }

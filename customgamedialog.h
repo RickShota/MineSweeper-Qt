@@ -10,10 +10,14 @@
 
 #include "common.h"
 
-class customGameDialog : public QDialog
+class CustomGameDialog : public QDialog
 {
 public:
-    customGameDialog();
+    explicit CustomGameDialog(QWidget *parent = 0);
+
+    QSpinBox *colspinbox; // 列分量框
+    QSpinBox *rowspinbox; // 行分量框
+    QSpinBox *minenumspinbox; // 雷数分量框
 };
 
 #endif // CUSTOMGAMEDIALOG_H
