@@ -3,7 +3,7 @@
  * @brief 自定义游戏难度的弹窗
  * @author RickRone
  * @date 2024.3.14
- * @version Qt 6.7.2
+ * @version Qt 6.6.2
  */
 #ifndef CUSTOMGAMEDIALOG_H
 #define CUSTOMGAMEDIALOG_H
@@ -12,12 +12,20 @@
 
 class CustomGameDialog : public QDialog
 {
+    Q_OBJECT
 public:
     explicit CustomGameDialog(QWidget *parent = 0);
 
-    QSpinBox *colspinbox; // 列分量框
-    QSpinBox *rowspinbox; // 行分量框
-    QSpinBox *minenumspinbox; // 雷数分量框
+    QSpinBox *colSpinBox; // 列分量框
+    QSpinBox *rowSpinBox; // 行分量框
+    QSpinBox *mineNumSpinBox; // 雷数分量框
+    // 读设置
+    void readSettings();
+    // 写设置
+    void writeSettings();
+
+signals:
+    void signal_sendCustomset(int,int,int);
 };
 
 #endif // CUSTOMGAMEDIALOG_H

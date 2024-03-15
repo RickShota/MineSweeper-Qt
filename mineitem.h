@@ -3,7 +3,7 @@
  * @brief 游戏方块类
  * @author RickRone
  * @date 2024.3.14
- * @version Qt 6.7.2
+ * @version Qt 6.6.2
  */
 #ifndef MINEITEM_H
 #define MINEITEM_H

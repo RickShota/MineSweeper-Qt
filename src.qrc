@@ -22,5 +22,6 @@
         <file>sounds/start.wav</file>
         <file>sounds/time.wav</file>
         <file>sounds/win.wav</file>
+        <file>images/R-C.png</file>
     </qresource>
 </RCC>

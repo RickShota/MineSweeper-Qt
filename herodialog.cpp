@@ -3,57 +3,86 @@
 HeroDialog::HeroDialog(QWidget *parent)
     : QDialog(parent)
 {
-    this->setWindowTitle("英雄榜");
+    this->setWindowTitle("历史最佳");
     this->setWindowIcon(QIcon(":/images/flag.png"));
+    this->resize(300, 200);
 
-    QLabel *name1 = new QLabel("初级");
-    QLabel *name2 = new QLabel("中级");
-    QLabel *name3 = new QLabel("高级");
+    QLabel *name1 = new QLabel("初  级");
+    QLabel *name2 = new QLabel("中  级");
+    QLabel *name3 = new QLabel("高  级");
     QLabel *name4 = new QLabel("自定义");
 
-    lowrecordtimelabel = new QLabel("0"); //初级纪录时间
-    middlerecordtimelabel = new QLabel("0"); //中级纪录时间
-    heightrecordtimelabel = new QLabel("0"); //高级纪录时间
-    minerecordtimelabel = new QLabel("0");
+    lowrecordtimelabel = new QLabel("999"); //初级纪录时间
+    middlerecordtimelabel = new QLabel("999"); //中级纪录时间
+    heightrecordtimelabel = new QLabel("999"); //高级纪录时间
+    minerecordtimelabel = new QLabel("999");
 
-    lowrecordnamelabel = new QLabel("匿名"); //初级纪录姓名
-    middlerecordnamelabel = new QLabel("匿名"); //中级纪录姓名
-    heightrecordnamelabel = new QLabel("匿名"); //高级纪录姓名
-    minerecordnamelabel = new QLabel("匿名");
+    lowrecordnamelabel = new QLabel("xxx"); //初级纪录姓名
+    middlerecordnamelabel = new QLabel("xxx"); //中级纪录姓名
+    heightrecordnamelabel = new QLabel("xxx"); //高级纪录姓名
+    minerecordnamelabel = new QLabel("xxx");
 
     QPushButton *button1 = new QPushButton("清 空");
     this->connect(button1,SIGNAL(clicked(bool)),this,SLOT(slot_reset()));
     QPushButton *button2 = new QPushButton("取 消");
     this->connect(button2,SIGNAL(clicked(bool)),this,SLOT(close()));
 
+    auto font = QFont("微软雅黑", 13, 10);
+    QLabel *head1 = new QLabel("难  度");
+    head1->setFont(font);
+    QLabel *head2 = new QLabel("成绩（秒）");
+    head2->setFont(font);
+    QLabel *head3 = new QLabel("玩  家");
+    head3->setFont(font);
+
+    head1->setAlignment(Qt::AlignCenter);
+    head2->setAlignment(Qt::AlignCenter);
+    head3->setAlignment(Qt::AlignCenter);
+    name1->setAlignment(Qt::AlignCenter);
+    lowrecordtimelabel->setAlignment(Qt::AlignCenter);
+    lowrecordnamelabel->setAlignment(Qt::AlignCenter);
+    name2->setAlignment(Qt::AlignCenter);
+    middlerecordtimelabel->setAlignment(Qt::AlignCenter);
+    middlerecordnamelabel->setAlignment(Qt::AlignCenter);
+    name3->setAlignment(Qt::AlignCenter);
+    heightrecordtimelabel->setAlignment(Qt::AlignCenter);
+    heightrecordnamelabel->setAlignment(Qt::AlignCenter);
+    name4->setAlignment(Qt::AlignCenter);
+    minerecordtimelabel->setAlignment(Qt::AlignCenter);
+    minerecordnamelabel->setAlignment(Qt::AlignCenter);
+
     QGridLayout *glayout = new QGridLayout;
-    glayout->addWidget(name1,0,0);
-    glayout->addWidget(lowrecordtimelabel,0,1);
-    glayout->addWidget(name2,1,0);
+    glayout->addWidget(head1, 0, 0);
+    glayout->addWidget(head2, 0, 1);
+    glayout->addWidget(head3, 0, 2);
 
-    glayout->addWidget(middlerecordtimelabel,1,1);
-    glayout->addWidget(name3,2,0);
-    glayout->addWidget(heightrecordtimelabel,2,1);
-    glayout->addWidget(name4,3,0);
+    glayout->addWidget(name1, 1, 0);
+    glayout->addWidget(lowrecordtimelabel,1,1);
+    glayout->addWidget(lowrecordnamelabel,1,2);
 
-    glayout->addWidget(minerecordtimelabel,3,1);
-    glayout->addWidget(lowrecordnamelabel,0,2);
-    glayout->addWidget(middlerecordnamelabel,1,2);
-    glayout->addWidget(heightrecordnamelabel,2,2);
+    glayout->addWidget(name2, 2, 0);
+    glayout->addWidget(middlerecordtimelabel,2,1);
+    glayout->addWidget(middlerecordnamelabel,2,2);
 
-    glayout->addWidget(minerecordnamelabel,3,2);
+    glayout->addWidget(name3, 3, 0);
+    glayout->addWidget(heightrecordtimelabel,3,1);
+    glayout->addWidget(heightrecordnamelabel,3,2);
 
-    //水平
+    glayout->addWidget(name4, 4, 0);
+    glayout->addWidget(minerecordtimelabel,4,1);
+    glayout->addWidget(minerecordnamelabel,4,2);
+
+    // 水平
     QHBoxLayout *hblayout = new QHBoxLayout;
     hblayout->addWidget(button1);
     hblayout->addStretch();
     hblayout->addWidget(button2);
 
-    //垂直
+    // 垂直
     QVBoxLayout *vblayout = new QVBoxLayout(this);
     vblayout->addLayout(glayout);
     vblayout->addLayout(hblayout);
-    this->readSettings(); //执行readsettings
+    this->readSettings();
 }
 
 void HeroDialog::readSettings()
@@ -61,14 +90,14 @@ void HeroDialog::readSettings()
     QSettings *settings = new QSettings("MineSweeper","0314", this);
     // 将读取到的数据设置到相应的分量框
     settings->beginGroup("hero");
-    int low_time = settings->value("lowrecordtimelabel", "0").toInt();
-    int middle_time = settings->value("middlerecordtimelabel", "0").toInt();
-    int height_time = settings->value("heightrecordtimelabel", "0").toInt();
-    int mine_time = settings->value("minerecordtimelabel", "0").toInt();
-    QString low_name = settings->value("low_name", "匿名").toString();
-    QString middle_name = settings->value("middle_name", "匿名").toString();
-    QString height_name = settings->value("height_name", "匿名").toString();
-    QString mine_name = settings->value("mine_name", "匿名").toString();
+    int low_time = settings->value("lowrecordtimelabel", "999").toInt();
+    int middle_time = settings->value("middlerecordtimelabel", "999").toInt();
+    int height_time = settings->value("heightrecordtimelabel", "999").toInt();
+    int mine_time = settings->value("minerecordtimelabel", "999").toInt();
+    QString low_name = settings->value("low_name", "xxx").toString();
+    QString middle_name = settings->value("middle_name", "xxx").toString();
+    QString height_name = settings->value("height_name", "xxx").toString();
+    QString mine_name = settings->value("mine_name", "xxx").toString();
     settings->endGroup();
 
     //更新数据
@@ -86,36 +115,31 @@ void HeroDialog::readSettings()
 
 void HeroDialog::initHeroRecord()
 {
-    lowrecordtimelabel->setText(QString().setNum(0));
-    middlerecordtimelabel->setText(QString().setNum(0));
-    heightrecordtimelabel->setText(QString().setNum(0));
-    minerecordnamelabel->setText(QString().setNum(0));
+    lowrecordtimelabel->setText(QString().setNum(999));
+    middlerecordtimelabel->setText(QString().setNum(999));
+    heightrecordtimelabel->setText(QString().setNum(999));
+    minerecordnamelabel->setText(QString().setNum(999));
 
-    lowrecordnamelabel->setText("匿名");
-    middlerecordnamelabel->setText("匿名");
-    heightrecordnamelabel->setText("匿名");
-    minerecordnamelabel->setText("匿名");
+    lowrecordnamelabel->setText("xxx");
+    middlerecordnamelabel->setText("xxx");
+    heightrecordnamelabel->setText("xxx");
+    minerecordnamelabel->setText("xxx");
 }
 
 
 void HeroDialog::slot_reset()
 {
-    //创建一个QSettings对象，并指定配置文件路径和应用程序名称作为参数。
     QSettings settings("MineSweeper","0314");
-    //调用beginGroup()函数指定配置文件中的组名为"hero"
     settings.beginGroup("hero");
+    settings.setValue("lowrecordtimelabel", 999);
+    settings.setValue("middlerecordtimelabel", 999);
+    settings.setValue("heightrecordtimelabel", 999);
+    settings.setValue("minerecordtimelabel", 999);
 
-    //通过setValue()函数将低级别、中级别、高级别的最短用时设置为999，并将对应的玩家姓名设置为"匿名"。
-    settings.setValue("lowrecordtimelabel", 0);
-    settings.setValue("middlerecordtimelabel", 0);
-    settings.setValue("heightrecordtimelabel", 0);
-    settings.setValue("minerecordtimelabel", 0);
-
-    settings.setValue("low_name","匿名");
-    settings.setValue("middle_name","匿名");
-    settings.setValue("height_name","匿名");
-    settings.setValue("mine_name","匿名");
-
+    settings.setValue("low_name","xxx");
+    settings.setValue("middle_name","xxx");
+    settings.setValue("height_name","xxx");
+    settings.setValue("mine_name","xxx");
     settings.endGroup();
     this->readSettings();
 }

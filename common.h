@@ -3,13 +3,14 @@
  * @brief 包含了常用的函数和工具类，用于提供一些通用的功能
  * @author RickRone
  * @date 2024.3.14
- * @version Qt 6.7.2
+ * @version Qt 6.6.2
  */
 #ifndef COMMON_H
 #define COMMON_H
 
 #include <QSoundEffect>
 #include <QDialog>
+#include <QInputDialog>
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>

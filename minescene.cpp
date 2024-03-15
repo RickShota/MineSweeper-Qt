@@ -14,8 +14,8 @@ void MineScene::initscene() {
     qDebug() << "initscene(): in\n";
     // 初始化非雷数
     this->m_remainNoMines = m_sceneRow * m_sceneCol - m_mineNum;
-    qDebug() << "initscene(): m_sceneRow=" << m_sceneRow << "\n";
-    qDebug() << "initscene(): m_sceneCol=" << m_sceneCol << "\n";
+    qDebug() << "initscene(): m_sceneRow =" << m_sceneRow;
+    qDebug() << "initscene(): m_sceneCol =" << m_sceneCol;
     // 创建方块并设置雷区
     for(int i = 0; i < m_sceneRow; i++ ) {
         QVector<MineItem *> t_vec;
@@ -27,7 +27,6 @@ void MineScene::initscene() {
         }
         this->m_itemVec.push_back(t_vec);
     }
-    qDebug() << "initscene(): setItem\n";
     // 随机布雷
     srand(time(NULL));
     for(int k = 0; k < m_mineNum; k++) {
@@ -39,7 +38,6 @@ void MineScene::initscene() {
             this->countAroundMines(this->m_itemVec[randX][randY]);
         }
     }
-    qDebug() << "initscene(): setMine\n";
     // 连接信号
     for(int i = 0; i < m_sceneRow; i++) {
         for(int j = 0; j < m_sceneCol; j++) {
@@ -59,7 +57,6 @@ void MineScene::initscene() {
             );
         }
     }
-    qDebug() << "initscene(): connect signal\n";
 }
 // 统计方块周围的雷数
 void MineScene::countAroundMines(MineItem *item) {

@@ -4,7 +4,7 @@ MineSweep::MineSweep(QWidget *parent)
     : QMainWindow(parent), centralWd(0), mainView(0), mineScene(0), mineNumLcd(0), timeLcd(0), smileBtn(0), timer(0)
 {
     this->setWindowTitle("扫雷仙人");
-    this->setWindowIcon(QIcon(":/images/bong.png"));
+    this->setWindowIcon(QIcon(":/images/R-C.png"));
 
     create_action();
     create_menu();
@@ -44,10 +44,10 @@ void MineSweep::create_action() {
     levelGroup->addAction(cusL);
     connect(levelGroup, SIGNAL(triggered(QAction*)), this, SLOT(slot_newgamebyleve(QAction*)));
 
-    colorA = new QAction(tr("颜色(&C)"), this);
-    colorA->setCheckable(true);
-    colorA->setChecked(true);
-    connect(colorA, SIGNAL(triggered(bool)), this, SLOT(slot_colorchanged()));
+    // colorA = new QAction(tr("颜色(&C)"), this);
+    // colorA->setCheckable(true);
+    // colorA->setChecked(true);
+    // connect(colorA, SIGNAL(triggered(bool)), this, SLOT(slot_colorchanged()));
 
     soundA = new QAction(tr("声音(&S)"), this);
     soundA->setCheckable(true);
@@ -75,7 +75,7 @@ void MineSweep::create_menu() {
     gMenu->addAction(heiL);
     gMenu->addAction(cusL);
     gMenu->addSeparator();
-    gMenu->addAction(colorA);
+    // gMenu->addAction(colorA);
     gMenu->addAction(soundA);
     gMenu->addSeparator();
     gMenu->addAction(heroA);
@@ -119,19 +119,23 @@ void MineSweep::writesettings() {
 
 // 开始新游
 void MineSweep::slot_newgame() {
-    // qDebug() << "slot_newgame() in\n";
     // 清理旧对象
-    centralWd->deleteLater();
-    mainView->deleteLater();
-    mineScene->deleteLater();
-    mineNumLcd->deleteLater();
-    timeLcd->deleteLater();
-    smileBtn->deleteLater();
+    if(centralWd)
+        centralWd->deleteLater();
+    if(mainView)
+        mainView->deleteLater();
+    if(mineScene)
+        mineScene->deleteLater();
+    if(mineNumLcd)
+        mineNumLcd->deleteLater();
+    if(timeLcd)
+        timeLcd->deleteLater();
+    if(smileBtn)
+        smileBtn->deleteLater();
     if(timer) {
         timer->stop();
         timer->deleteLater();
     }
-    // qDebug() << "slot_newgame() deleteLaterOK";
     // 创建主界面
     centralWd = new QWidget(this);
     setCentralWidget(centralWd);
@@ -171,7 +175,7 @@ void MineSweep::slot_newgame() {
     // 场景开始信号->开始新游戏槽
     connect(mineScene, &MineScene::sig_sceneNewGame, this, &MineSweep::slot_newgame);
     // 场景显示雷数信号->显示雷数的槽
-    connect(mineScene, SIGNAL(sig_scenedisplayMineNum(int)), this, SLOT(slot_displayMineNum(int)));
+    connect(mineScene, &MineScene::sig_scenedisplayMineNum, this, &MineSweep::slot_displayMineNum);
     // 成功过关信号->更新英雄榜的槽
     connect(mineScene, &MineScene::sig_successPassGame, this, &MineSweep::slot_updatehero);
     // 游戏级别
@@ -219,10 +223,9 @@ void MineSweep::slot_newgamebyleve(QAction *act) {
         mineScene->m_mineNum = H_MINENUM;
         mineScene->m_crrentLeve = HEIGHT_LEVE;
     } else if (act == cusL) {
-        mineScene->m_sceneCol = C_RC;
-        mineScene->m_sceneRow = C_RC;
-        mineScene->m_mineNum = C_MINENUM;
-        mineScene->m_crrentLeve = CUSOM_LEVE;
+        CustomGameDialog *custom = new CustomGameDialog(this);
+        this->connect(custom, &CustomGameDialog::signal_sendCustomset, this, &MineSweep::slot_acceptCutsomvale);
+        custom->exec();
     }
     // 写入到注册表
     this->writesettings();
@@ -241,8 +244,7 @@ void MineSweep::slot_acceptCutsomvale(int row, int col ,int mine) {
     this->slot_newgame();
 }
 // 设置颜色
-void MineSweep::slot_colorchanged() {
-}
+// void MineSweep::slot_colorchanged() { }
 // 设置声音
 void MineSweep::slot_soundchanged() {
     this->mineScene->m_soundOpen = !mineScene->m_soundOpen;
@@ -260,15 +262,96 @@ void MineSweep::slot_herochecked() {
 }
 // 显示about扫雷
 void MineSweep::slot_about() {
-    QString detail = tr("游戏名称: 扫雷仙人\n"
-                     "游戏版本: 1.0.1\n"
-                     "游戏作者: RickRone\n"
-                     "Qt版本: 6.7.2\n"
-                     "发布日期: 2024.3.14");
-    QMessageBox::about(this,tr("关于扫雷仙人"), detail);
+    QMessageBox *msgBox = new QMessageBox(this);
+    msgBox->setWindowTitle("关于扫雷仙人");
+    QPixmap pixmap(":/images/R-C.png");
+    QIcon icon(pixmap.scaled(64, 64, Qt::KeepAspectRatio));
+    msgBox->setIconPixmap(icon.pixmap(QSize(64, 64)));
+
+
+    QString detail = tr("<p style='font-size: 14px; font-weight: bold;'>游戏名称: 扫雷仙人</p>"
+                        "<p style='font-size: 12px;'>游戏版本: 1.0.1</p>"
+                        "<p style='font-size: 12px;'>游戏作者: RickRone</p>"
+                        "<p style='font-size: 12px;'>Qt版本: 6.6.2</p>"
+                        "<p style='font-size: 12px;'>发布日期: 2024.3.14</p>");
+    msgBox->setText(detail);
+    msgBox->setStyleSheet("QLabel { width: 300px; height: 100px}");
+    msgBox->show();
 }
 // 更新英雄榜的槽
 void MineSweep::slot_updatehero() {
+    QSettings settings("MineSweeper", "0314");
+    int recordTime = 999;
+    QString newname;
+    switch (mineScene->m_crrentLeve) {
+    case LOW_LEVE:
+        settings.beginGroup("hero");
+        recordTime = settings.value("lowrecordtimelabel", 999).toInt();
+        settings.endGroup();
+        if(use_time < recordTime) {
+            bool ok = true;
+            newname = QInputDialog::getText(this, tr("新纪录"), "破纪录了！敢问阁下尊姓大名: " ,QLineEdit::Normal, "姓名", &ok);
+            if(ok) {
+                settings.beginGroup("hero");
+                settings.setValue("lowrecordtimelabel", use_time);
+                settings.setValue("low_name", newname);
+                settings.endGroup();
+            }
+        }
+        break;
+    case MIDDLE_LEVE:
+        settings.beginGroup("hero");
+        recordTime = settings.value("middlerecordtimelabel", 999).toInt();
+        settings.endGroup();
+        if(use_time<recordTime) {
+            bool ok;
+            newname = QInputDialog::getText(this,tr("新纪录"),"破纪录了！敢问阁下尊姓大名: ",QLineEdit::Normal,"匿名",&ok);
+            if(ok) {
+                settings.beginGroup("hero");
+                settings.setValue("middlerecordtimelabel",use_time);
+                settings.setValue("middle_name",newname);
+                settings.endGroup();
+            }
+        }
+        break;
+    case HEIGHT_LEVE:
+        settings.beginGroup("hero");
+        recordTime = settings.value("heightrecordtimelabel", 999).toInt();
+        settings.endGroup();
+        if(use_time<recordTime) {
+            bool ok;
+            newname = QInputDialog::getText(this,tr("新纪录"),"破纪录了！敢问阁下尊姓大名: ",QLineEdit::Normal,"姓名",&ok);
+            if(ok) {
+                settings.beginGroup("hero");
+                settings.setValue("heightrecordtimelabel",use_time);
+                settings.setValue("height_name", newname);
+                settings.endGroup();
+            }
+        }
+        break;
+    case CUSOM_LEVE:
+        settings.beginGroup("hero");
+        recordTime = settings.value("minerecordtimelabel", 999).toInt();
+        settings.endGroup();
+        if(use_time<recordTime) {
+            bool ok;
+            newname = QInputDialog::getText(this,tr("新纪录"),"破纪录了！敢问阁下尊姓大名: ",QLineEdit::Normal,"姓名",&ok);
+            if(ok) {
+                settings.beginGroup("hero");
+                settings.setValue("minerecordtimelabel",use_time);
+                settings.setValue("mine_name",newname);
+                settings.endGroup();
+            }
+        }
+        break;
+    }
+
+    // 显示信息,游戏结束,是否继续,继续重新开始,取消则关闭游戏
+    auto ret = QMessageBox::question(this,"游戏结束","游戏结束，是否继续?",QMessageBox::Ok,QMessageBox::Cancel);
+    if(ret == QMessageBox::Ok)
+        slot_newgame();
+    else
+        this->close();
 }
 // 显示雷数的槽
 void MineSweep::slot_displayMineNum(int num) {
