@@ -119,6 +119,7 @@ void MineSweep::writesettings() {
 
 // 开始新游
 void MineSweep::slot_newgame() {
+    // qDebug() << "slot_newgame() in\n";
     // 清理旧对象
     centralWd->deleteLater();
     mainView->deleteLater();
@@ -130,14 +131,10 @@ void MineSweep::slot_newgame() {
         timer->stop();
         timer->deleteLater();
     }
+    // qDebug() << "slot_newgame() deleteLaterOK";
     // 创建主界面
     centralWd = new QWidget(this);
     setCentralWidget(centralWd);
-    // 读取状态
-    this->readsettings();
-    if(mineScene->m_soundOpen) {
-        playSound(":/sounds/start.wav");
-    }
     // LED灯
     QPalette pa;
     pa.setColor(QPalette::WindowText, Qt::red);
@@ -161,6 +158,12 @@ void MineSweep::slot_newgame() {
     mainView = new QGraphicsView;
     mineScene = new MineScene;
     mainView->setScene(mineScene);
+    // 读取状态
+    this->readsettings();
+    if(mineScene->m_soundOpen) {
+        playSound(":/sounds/start.wav");
+    }
+    // qDebug() << "slot_newgame() readsettingsOK";
     // 垂直布局
     QVBoxLayout *vL = new QVBoxLayout(centralWd);
     vL->addLayout(hL);
