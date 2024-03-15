@@ -3,7 +3,7 @@
  * @brief 游戏场景类
  * @author RickRone
  * @date 2024.3.14
- * @version Qt 6.7.2
+ * @version Qt 6.6.2
  */
 #ifndef MINESCENE_H
 #define MINESCENE_H

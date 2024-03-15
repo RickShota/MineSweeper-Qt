@@ -3,13 +3,15 @@
  * @brief 主程序窗口
  * @author RickRone
  * @date 2024.3.14
- * @version Qt 6.7.2
+ * @version Qt 6.6.2
  */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "common.h"
 #include "minescene.h"
+#include "herodialog.h"
+#include "customgamedialog.h"
 
 class MineSweep : public QMainWindow
 {
@@ -54,7 +56,7 @@ public slots:
     void slot_newgame(); // 开始新游戏槽
     void slot_newgamebyleve(QAction *); // 点击游戏级别行为开始新游戏槽
     void slot_acceptCutsomvale(int,int,int); // 接收自定义游戏设置槽
-    void slot_colorchanged(); // 设置颜色的槽
+    // void slot_colorchanged(); // 设置颜色的槽
     void slot_soundchanged(); // 设置声音的槽
     void slot_herochecked(); // 显示英雄榜的槽
     void slot_about(); // 显示about扫雷的槽

@@ -38,7 +38,7 @@ void MineItem::leftClick() {
         // 打开所有方块
         mineScene->openAllItems();
         mineScene->m_isGameOver = true;
-        QMessageBox::information((QWidget*)mineScene->parent(), tr("扫雷失败"), "扫雷失败，恭喜踩雷", QMessageBox::Ok);
+        QMessageBox::critical((QWidget*)mineScene->parent(), tr("Boom!!!"), "嘣！扫雷失败，恭喜踩雷", QMessageBox::Ok);
         emit sig_restartGame(); // 发送重开信号
         return;
     } else {
@@ -51,7 +51,8 @@ void MineItem::leftClick() {
         }
         // 将场景非雷数-1
         mineScene->m_remainNoMines--;
-        if(mineScene->m_remainNoMines == 0) { // 剩余雷为0则胜利
+        // 剩余雷为0则胜利
+        if(mineScene->m_remainNoMines == 0) {
             if(mineScene->m_soundOpen) {
                 playSound(":/sounds/win.wav");
             }
@@ -66,15 +67,12 @@ void MineItem::rightClick() {
     MineScene *mineScene = (MineScene *)this->scene();
     // 游戏结束||方块已打开
     if(mineScene->m_isGameOver || this->m_isOpened) return;
-    if(mineScene->m_soundOpen) {
-        playSound(":/sounds/time.wav");
-    }
     m_rMouseKeyNum++;
     if(m_rMouseKeyNum == 1) { // 标记旗帜
         m_isRMouse = true;
         mineScene->m_signedMineNum++; // 标记雷数+1
         this->setPixmap(QPixmap(":/images/flag.png"));
-        emit this->sig_resetMineNum(mineScene->m_signedMineNum); // 发送重设雷数信号
+        emit sig_resetMineNum(mineScene->m_signedMineNum); // 发送重设雷数信号
         if(this->m_isMine) { // 若方块是雷，正确标记+1
             mineScene->m_rightMineNum++;
         }
