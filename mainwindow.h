@@ -1,6 +1,6 @@
 /**
  * @file mainwindow.h
- * @brief 主程序窗口
+ * @brief 主程序窗口头文件
  * @author RickRone
  * @date 2024.3.14
  * @version Qt 6.6.2

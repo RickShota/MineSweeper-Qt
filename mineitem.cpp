@@ -1,6 +1,13 @@
+/**
+ * @file mianitem.cpp
+ * @brief 游戏方块类源文件
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.6.2
+ */
 #include "mineitem.h"
 #include "minescene.h"
-// 游戏方块类
+
 MineItem::MineItem(int t_x, int t_y, QPixmap itemPixMap, QGraphicsItem *p)
     : QGraphicsPixmapItem(itemPixMap, p), m_X(t_x), m_Y(t_y)
 {
@@ -11,13 +18,18 @@ MineItem::MineItem(int t_x, int t_y, QPixmap itemPixMap, QGraphicsItem *p)
     m_isRMouse = false;
 }
 
-// 根据右键点击次数修改方块状态
+/**
+ * @brief MineItem::mousePressEvent
+ * @param e
+ * @details 监听鼠标点击事件
+ */
 void MineItem::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     if(e->button() == Qt::LeftButton)
         leftClick();
     else if(e->button() == Qt::RightButton)
         rightClick();
 }
+
 // 左击开雷
 void MineItem::leftClick() {
     // 获取当前场景

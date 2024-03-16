@@ -1,5 +1,12 @@
+/**
+ * @file mainwindow.cpp
+ * @brief 主程序窗口源文件
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.6.2
+ */
 #include "mainwindow.h"
-// 主窗口类
+
 MineSweep::MineSweep(QWidget *parent)
     : QMainWindow(parent), centralWd(0), mainView(0), mineScene(0), mineNumLcd(0), timeLcd(0), smileBtn(0), timer(0)
 {
