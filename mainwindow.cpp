@@ -1,9 +1,16 @@
+/**
+ * @file mainwindow.cpp
+ * @brief 主程序窗口源文件
+ * @author RickRone
+ * @date 2024.3.14
+ * @version Qt 6.6.2
+ */
 #include "mainwindow.h"
-// 主窗口类
+
 MineSweep::MineSweep(QWidget *parent)
     : QMainWindow(parent), centralWd(0), mainView(0), mineScene(0), mineNumLcd(0), timeLcd(0), smileBtn(0), timer(0)
 {
-    this->setWindowTitle("扫雷仙人");
+    this->setWindowTitle("扫雷");
     this->setWindowIcon(QIcon(":/images/R-C.png"));
 
     create_action();
@@ -263,13 +270,13 @@ void MineSweep::slot_herochecked() {
 // 显示about扫雷
 void MineSweep::slot_about() {
     QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->setWindowTitle("关于扫雷仙人");
+    msgBox->setWindowTitle("关于扫雷");
     QPixmap pixmap(":/images/R-C.png");
     QIcon icon(pixmap.scaled(64, 64, Qt::KeepAspectRatio));
     msgBox->setIconPixmap(icon.pixmap(QSize(64, 64)));
 
 
-    QString detail = tr("<p style='font-size: 14px; font-weight: bold;'>游戏名称: 扫雷仙人</p>"
+    QString detail = tr("<p style='font-size: 14px; font-weight: bold;'>游戏名称: 扫雷</p>"
                         "<p style='font-size: 12px;'>游戏版本: 1.0.1</p>"
                         "<p style='font-size: 12px;'>游戏作者: RickRone</p>"
                         "<p style='font-size: 12px;'>Qt版本: 6.6.2</p>"

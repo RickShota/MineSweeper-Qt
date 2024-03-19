@@ -1,5 +1,12 @@
+/**
+ * @file customgamedialog.cpp
+ * @brief 自定义游戏难度弹窗类源文件
+ * @author RickRone
+ * @date 2024.3.15
+ * @version Qt 6.6.2
+ */
 #include "customgamedialog.h"
-// 自定义游戏类
+
 CustomGameDialog::CustomGameDialog(QWidget *parent) : QDialog(parent)
 {
     this->setWindowTitle("自定义难度");
@@ -43,7 +50,7 @@ CustomGameDialog::CustomGameDialog(QWidget *parent) : QDialog(parent)
 
                       //发送自定义游戏数据信号
                       emit this->signal_sendCustomset(row, col, count);
-                      this->writeSettings(); //自定义游戏设置保存到配置文件中，并关闭自定义游戏对话框。
+                      this->writeSettings();
                       this->close();
                   });
 

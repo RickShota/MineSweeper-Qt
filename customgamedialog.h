@@ -1,6 +1,6 @@
 /**
  * @file customgamedialog.h
- * @brief 自定义游戏难度的弹窗
+ * @brief 自定义游戏难度弹窗头文件
  * @author RickRone
  * @date 2024.3.14
  * @version Qt 6.6.2

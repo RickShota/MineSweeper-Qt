@@ -1,5 +1,12 @@
+/**
+ * @file herodialog.cpp
+ * @brief 排行榜弹窗类源文件
+ * @author RickRone
+ * @date 2024.3.15
+ * @version Qt 6.6.2
+ */
 #include "herodialog.h"
-// 排行榜类
+
 HeroDialog::HeroDialog(QWidget *parent)
     : QDialog(parent)
 {
@@ -85,6 +92,10 @@ HeroDialog::HeroDialog(QWidget *parent)
     this->readSettings();
 }
 
+/**
+ * @brief HeroDialog::readSettings
+ * @details 读取并渲染数据
+ */
 void HeroDialog::readSettings()
 {
     QSettings *settings = new QSettings("MineSweeper","0314", this);
@@ -112,7 +123,10 @@ void HeroDialog::readSettings()
     minerecordnamelabel->setText(mine_name);
 }
 
-
+/**
+ * @brief HeroDialog::initHeroRecord
+ * @details 初始化
+ */
 void HeroDialog::initHeroRecord()
 {
     lowrecordtimelabel->setText(QString().setNum(999));
@@ -126,7 +140,10 @@ void HeroDialog::initHeroRecord()
     minerecordnamelabel->setText("xxx");
 }
 
-
+/**
+ * @brief HeroDialog::slot_reset
+ * @details 清空
+ */
 void HeroDialog::slot_reset()
 {
     QSettings settings("MineSweeper","0314");

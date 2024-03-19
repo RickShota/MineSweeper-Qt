@@ -1,6 +1,6 @@
 /**
  * @file minescene.h
- * @brief 游戏场景类
+ * @brief 游戏场景类头文件
  * @author RickRone
  * @date 2024.3.14
  * @version Qt 6.6.2
